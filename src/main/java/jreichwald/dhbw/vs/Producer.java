@@ -7,6 +7,9 @@ import org.apache.logging.log4j.Logger;
 
 public class Producer implements Runnable {
 
+	/**
+	 * Shared Storage 
+	 */
 	private Queue<Integer> sharedStorage;
 
 	/**
@@ -19,13 +22,17 @@ public class Producer implements Runnable {
 	 */
 	private final int SLEEPTIME;
 
+	/**
+	 * Log instance 
+	 */
 	private Logger _log = LogManager.getLogger(Producer.class);
 	
 	/**
 	 * Default Constructor
 	 * 
-	 * @param sharedStorage
-	 * @param maxsize
+	 * @param sharedStorage reference to the shared storage
+	 * @param maxsize max size of the shared storage 
+	 * @param sleeptime random double is multiplied with sleeptime to sleep an arbitrary long time
 	 */
 	public Producer(Queue<Integer> sharedStorage, int maxsize, int sleeptime) {
 		this.MAXSIZE = maxsize;
@@ -33,15 +40,20 @@ public class Producer implements Runnable {
 		this.SLEEPTIME = sleeptime;
 	}
 
+	/**
+	 * Run-Method 
+	 */
 	public void run() {
-		int i = 0;
+		int i = 0; // value to be produced
+		
 		_log.debug("Producer thread started.");
 		
+		// Loop endlessly ...
 		while (true) {
-			synchronized (sharedStorage) {
+			synchronized (sharedStorage) { //START synchronized code block 
 				if (sharedStorage.size() == MAXSIZE) {
 					try {
-						sharedStorage.wait();
+						sharedStorage.wait(); // wait and release monitor 
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -49,8 +61,9 @@ public class Producer implements Runnable {
 				}
 				sharedStorage.add(i++);
 				_log.debug("Produced " + i);
-				sharedStorage.notifyAll();
-			}
+				sharedStorage.notifyAll(); // notify waiting threads that monitor will be released.
+			} // END synchronized code block 
+			
 			// Wait for an arbitrary long time
 			try {
 				Thread.sleep(new Double(Math.ceil(Math.random() * SLEEPTIME))
@@ -60,6 +73,5 @@ public class Producer implements Runnable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }
