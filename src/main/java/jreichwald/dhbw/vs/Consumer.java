@@ -46,9 +46,6 @@ public class Consumer implements Runnable {
 	public void run() {
 		_log.debug("Consumer thread started.");
 
-		int i=0;
-		
-		
 		// loop endlessly 
 		while (true) {
 			synchronized (sharedStorage) { // START synchronized code block
