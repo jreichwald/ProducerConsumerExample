@@ -52,7 +52,7 @@ public class Consumer implements Runnable {
 		// loop endlessly 
 		while (true) {
 			synchronized (sharedStorage) { // START synchronized code block
-				if (this.sharedStorage.size() == 0) {
+				while (this.sharedStorage.size() == 0) {
 					try {
 						sharedStorage.wait(); //wait and release monitor 
 					} catch (InterruptedException e) {

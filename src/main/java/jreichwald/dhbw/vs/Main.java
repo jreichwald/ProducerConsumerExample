@@ -24,16 +24,18 @@ public class Main {
 		// different sleeptimes are possible to demonstrate the
 		// effects of a faster producer or faster consumer.  
 		// MAXSIZE may not be different! 
-		Consumer consumer = new Consumer(shared, MAXSIZE, SLEEPTIME);
-		Producer producer = new Producer(shared, MAXSIZE, SLEEPTIME);
+		// It's also possible to experiment with multiple producers and consumers - just create 
+		// multiple instances of them.
+		Consumer consumer1 = new Consumer(shared, MAXSIZE, SLEEPTIME);
+		Producer producer = new Producer(shared, MAXSIZE, 10);
+
 		
 		// Start Producer and Consumer Threads 
-		Thread consumerThread = new Thread(consumer);
+		Thread consumer1Thread = new Thread(consumer1);
 		Thread producerThread = new Thread(producer);
 		
 		// Run the Threads 
 		producerThread.start();
-		consumerThread.start();
-
+		consumer1Thread.start();
 	}
 }

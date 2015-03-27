@@ -51,7 +51,7 @@ public class Producer implements Runnable {
 		// Loop endlessly ...
 		while (true) {
 			synchronized (sharedStorage) { //START synchronized code block 
-				if (sharedStorage.size() == MAXSIZE) {
+				while (sharedStorage.size() == MAXSIZE) {
 					try {
 						sharedStorage.wait(); // wait and release monitor 
 					} catch (InterruptedException e) {
