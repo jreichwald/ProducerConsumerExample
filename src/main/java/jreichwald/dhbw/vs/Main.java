@@ -27,7 +27,7 @@ public class Main {
 		// It's also possible to experiment with multiple producers and consumers - just create 
 		// multiple instances of them.
 		Consumer consumer1 = new Consumer(shared, MAXSIZE, SLEEPTIME);
-		Producer producer = new Producer(shared, MAXSIZE, 10);
+		Producer producer = new Producer(shared, MAXSIZE, SLEEPTIME);
 
 		
 		// Start Producer and Consumer Threads 
