@@ -1,6 +1,7 @@
 package jreichwald.dhbw.vs;
 
 import java.util.Queue;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +45,8 @@ public class Consumer implements Runnable {
 	 * Run Method
 	 */
 	public void run() {
+		Random random = new Random(); 
+		
 		_log.debug("Consumer thread started.");
 
 		// loop endlessly 
@@ -57,13 +60,13 @@ public class Consumer implements Runnable {
 						e.printStackTrace();
 					}
 				}
-				_log.debug("Consumed: " + sharedStorage.poll());
+				_log.debug("Consumed " + sharedStorage.poll());
 				sharedStorage.notifyAll(); // notify waiting threads that the monitor will be released
 			} // END OF SYNCHRONIZED CODE BLOCK
 			
 			// Wait for an arbitrary long time to simulate processing time
 			try {
-				Thread.sleep(new Double(Math.ceil(Math.random() * SLEEPTIME)).longValue());
+				Thread.sleep((long) Math.ceil(this.SLEEPTIME * (Math.random() + 0.01)));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

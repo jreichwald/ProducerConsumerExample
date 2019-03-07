@@ -1,6 +1,7 @@
 package jreichwald.dhbw.vs;
 
 import java.util.Queue;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,6 +45,8 @@ public class Producer implements Runnable {
 	 * Run-Method 
 	 */
 	public void run() {
+		Random random = new Random(); 
+		
 		int i = 0; // value to be produced
 		
 		_log.debug("Producer thread started.");
@@ -59,15 +62,14 @@ public class Producer implements Runnable {
 						e.printStackTrace();
 					}
 				}
-				sharedStorage.add(i++);
-				_log.debug("Produced " + i);
+				sharedStorage.add(i);
+				_log.debug("Produced " + i++);
 				sharedStorage.notifyAll(); // notify waiting threads that monitor will be released.
 			} // END synchronized code block 
 			
-			// Wait for an arbitrary long time
+			// Wait for an arbitrary long time to simulate some work ...
 			try {
-				Thread.sleep(new Double(Math.ceil(Math.random() * SLEEPTIME))
-						.longValue());
+				Thread.sleep((long) Math.ceil(this.SLEEPTIME * (Math.random() + 0.01)));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
