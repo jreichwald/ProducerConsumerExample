@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// shared storage for producer and consumer. 
-		Queue<Integer> shared = new LinkedList<Integer>();
+		Queue<Integer> sharedQueue = new LinkedList<Integer>();
 		
 		// max capacity of storage
 		int MAXSIZE = 100 ; 
@@ -27,8 +27,8 @@ public class Main {
 		 *  It's also possible to experiment with multiple producers and consumers - just create 
 		 *  multiple instances of them.
 		**/ 
-		Consumer consumer1 = new Consumer(shared, SLEEPTIME);
-		Producer producer = new Producer(shared, MAXSIZE, SLEEPTIME);
+		Consumer consumer1 = new Consumer(sharedQueue, SLEEPTIME);
+		Producer producer = new Producer(sharedQueue, MAXSIZE, SLEEPTIME);
 
 		
 		// Start Producer and Consumer Threads 
