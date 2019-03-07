@@ -3,7 +3,7 @@ package jreichwald.dhbw.vs;
 import java.util.LinkedList;
 /**
  * Demo Implementation of the producer / consumer problem. 
- * @author Prof. Dr. Julian Reichwald <julian.reichwald@dhbw-mannheim.de>
+ * @author Julian Reichwald <julian.reichwald@dhbw-mannheim.de>
  *
  */
 public class Main {
