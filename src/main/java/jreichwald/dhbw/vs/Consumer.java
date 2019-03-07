@@ -9,17 +9,13 @@ import org.apache.logging.log4j.Logger;
 public class Consumer implements Runnable {
 
 	/**
-	 * Shared Storage 
+	 * Shared Storage. A Queue realizes the FIFO-Principle in a 
+	 * One-Way-Manner.
 	 */
 	private Queue<Integer> sharedStorage;
 
 	/**
-	 * Max size of storage.
-	 */
-	private final int MAXSIZE;
-
-	/**
-	 * sleep coefficient
+	 * sleep time base value
 	 */
 	private final int SLEEPTIME;
 
@@ -32,11 +28,9 @@ public class Consumer implements Runnable {
 	 * Default Constructor
 	 * 
 	 * @param sharedStorage reference to the shared storage
-	 * @param maxsize max size of the shared storage 
 	 * @param sleeptime random double is multiplied with sleeptime to sleep an arbitrary long time
 	 */
-	public Consumer(Queue<Integer> sharedStorage, int maxsize, int sleeptime) {
-		this.MAXSIZE = maxsize;
+	public Consumer(Queue<Integer> sharedStorage, int sleeptime) {
 		this.sharedStorage = sharedStorage;
 		this.SLEEPTIME = sleeptime;
 	}
@@ -60,13 +54,13 @@ public class Consumer implements Runnable {
 						e.printStackTrace();
 					}
 				}
-				_log.debug("Consumed " + sharedStorage.poll());
+				_log.debug("Consumed " + sharedStorage.poll() +", Queue size now " + this.sharedStorage.size());
 				sharedStorage.notifyAll(); // notify waiting threads that the monitor will be released
 			} // END OF SYNCHRONIZED CODE BLOCK
 			
 			// Wait for an arbitrary long time to simulate processing time
 			try {
-				Thread.sleep((long) Math.ceil(this.SLEEPTIME * (Math.random() + 0.01)));
+				Thread.sleep((long) Math.ceil(random.nextDouble() * this.SLEEPTIME)); 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

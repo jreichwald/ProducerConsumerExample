@@ -9,17 +9,18 @@ import org.apache.logging.log4j.Logger;
 public class Producer implements Runnable {
 
 	/**
-	 * Shared Storage 
+	 * Shared Storage. A Queue realizes the FIFO-Principle in a 
+	 * One-Way-Manner.
 	 */
 	private Queue<Integer> sharedStorage;
 
 	/**
-	 * Max size of storage.
+	 * Max size of storage queue
 	 */
 	private final int MAXSIZE;
 
 	/**
-	 * Sleeptime coefficient
+	 * Sleeptime base value
 	 */
 	private final int SLEEPTIME;
 
@@ -58,20 +59,18 @@ public class Producer implements Runnable {
 					try {
 						sharedStorage.wait(); // wait and release monitor 
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				sharedStorage.add(i);
-				_log.debug("Produced " + i++);
+				_log.debug("Produced " + i++ +", Queue size now " + this.sharedStorage.size());
 				sharedStorage.notifyAll(); // notify waiting threads that monitor will be released.
 			} // END synchronized code block 
 			
 			// Wait for an arbitrary long time to simulate some work ...
 			try {
-				Thread.sleep((long) Math.ceil(this.SLEEPTIME * (Math.random() + 0.01)));
+				Thread.sleep((long) Math.ceil(random.nextDouble() * this.SLEEPTIME)); 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
